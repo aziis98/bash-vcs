@@ -20,7 +20,7 @@ find . -type f -not -path './.vcs/*' -exec sha256sum {} \; \
 #  otherwise compute file additions and save those inside .vcs/files
 #  and also update the HEAD reference.
 if [[ ! -e ".vcs/HEAD" ]]; then
-	tail -n +2 ".vcs/snapshots/$SNAPSHOT_UUID" | sed -E 's/(.+?)\t(.+?)/cp -vp \"\1\" \".vcs\/files\/\2\"/;' | bash
+	tail -n +2 ".vcs/snapshots/$SNAPSHOT_UUID" | sed -E 's/(.+?)\t(.+?)/cp -p \"\1\" \".vcs\/files\/\2\"/;' | bash
 	echo -e "Initial Snapshot Saved"
 else
 	PREVIOUS_UUID="$(cat ".vcs/HEAD")"
@@ -28,7 +28,7 @@ else
 	echo -e "Current Head UUID: $PREVIOUS_UUID"
 
 	echo -e "Saving additions:"
-	comm -13 "$PREVIOUS_FILE" "$SNAPSHOT_FILE" | sed -E 's/(.+?)\t(.+?)/cp -vp \"\1\" \".vcs\/files\/\2\"/;' | bash
+	comm -13 "$PREVIOUS_FILE" "$SNAPSHOT_FILE" | sed -E 's/(.+?)\t(.+?)/cp -p \"\1\" \".vcs\/files\/\2\"/;' | bash
 fi
 
 echo -e "$SNAPSHOT_UUID" > .vcs/HEAD

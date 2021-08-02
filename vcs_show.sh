@@ -5,6 +5,10 @@ if [[ ! -d ".vcs" ]]; then
 	exit 1
 fi
 
-(cd .vcs/snapshots; find . -type f -printf "%T@|%Tc|%p\n" | sort -n | cut -d'|' -f 3 | sed -E 's/^..//;' | xargs stat -c 'ref: %n  %w')
+echo -e ""
 
-echo -e "Head: $(cat ".vcs/HEAD")"
+(cd .vcs/snapshots; find . -type f -printf "%T@|%Tc|%p\n" | sort -n | cut -d'|' -f 3 | sed -E 's/^..//;' | xargs stat -c ' > %n (%w)')
+
+echo -e ""
+echo -e " HEAD: $(cat ".vcs/HEAD")"
+echo -e ""
