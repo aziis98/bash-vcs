@@ -30,9 +30,11 @@ $ wc -l *.sh
   
     Restore a previous snapshot given its UUID.
 
-## Notes / Ideas
+## Notes / ToDo / Ideas
 
-- `vcs`: `vcs init`, `vcs snapshot`, ...
+- `vcs` 
+
+    Add a main command with sub-commands: `vcs init`, `vcs snapshot`, ...
 
 - `vcs init` should create a `.vcs/config` file
 
@@ -40,9 +42,9 @@ $ wc -l *.sh
 
 ### Names
 
-- `myver`: "my vcs"
+- `myver`: "my version control system"
 
-- `aver`: "aziis98 vcs"
+- `aver`: "aziis98 version control system"
 
 - ...
 
