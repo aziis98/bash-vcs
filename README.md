@@ -1,7 +1,7 @@
 
-# My Personal Bash VCS
+# Shell VCS
 
-A very small shell utility to version files, this is based mostly on `uuidgen` and `sha256sum` and some other common unix cli utilities.
+A very small shell utility to version files. This is an extremely semplified version of git and is based mostly on `uuidgen` and `sha256sum` and some other common unix cli utilities.
 
 ```
 $ wc -l *.sh
