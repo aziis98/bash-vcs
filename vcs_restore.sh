@@ -12,7 +12,7 @@ EOF
 fi
 
 if [[ ! -d ".vcs" ]]; then
-	echo -e "Snapshot repository not initialized"
+	echo -e "No snapshot repository in this folder"
 	exit 1
 fi
 

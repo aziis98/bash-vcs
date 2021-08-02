@@ -1,7 +1,16 @@
 
 # Personal Shell Version Control System
 
-A very simple shell utility to version files based on `uuidgen` and `sha256sum`.
+A very small shell utility to version files, this is base mostly on `uuidgen` and `sha256sum` and some other common unix cli utilities.
+
+```
+$ wc -l *.sh
+  16 vcs_init.sh
+  54 vcs_restore.sh
+  14 vcs_show.sh
+  35 vcs_snapshot.sh
+ 119 total
+```
 
 ## Usage
 
