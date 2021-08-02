@@ -14,23 +14,23 @@ $ wc -l *.sh
 
 ## Usage
 
-- [`vcs_init`](./vcs_init.sh)
+- [`./vcs_init.sh`](./vcs_init.sh)
   
     Initialize a repository in this folder
 
-- [`vcs_show`](./vcs_show.sh)
+- [`./vcs_show.sh`](./vcs_show.sh)
   
-    List snapshots with relative UUIDs in cronological order.
+    List snapshots with relative UUIDs and creation dates in cronological order.
 
-- [`vcs_snapshot`](./vcs_snapshot.sh)
+- [`./vcs_snapshot.sh`](./vcs_snapshot.sh)
   
     Create a snapshot of current working tree
 
-- [`vcs_restore <uuid>`](./vcs_restore.sh)
+- [`./vcs_restore.sh <uuid>`](./vcs_restore.sh)
   
-    Restore a previous snapshot given its UUID.
+    Restore a previous snapshot given its UUID. This will prompt for confirmation as this first clears the current working tree.
 
-## Notes / ToDo / Ideas
+## ToDo / Ideas
 
 - `vcs` 
 
@@ -38,7 +38,11 @@ $ wc -l *.sh
 
 - `vcs init` should create a `.vcs/config` file
 
-    - Give an option to gzip blobs inside `.vcs/files`, this should be disabled by default to keep things simpler and always accessible.
+    - Give an option to gzip blobs inside `.vcs/files`, this should be disabled by default to keep things simpler and always accessible. Something like `vcs init --gzip`
+
+- `vcs snapshot -m <message>`
+
+    Let the user add a message and some notes when creating a snapshot. Or this can simply be solved with a `NOTES` files in the working tree and some magic inside `vcs show` (or with something like `vcs init --message-command 'cat ./NOTES'`).
 
 ### Names
 
