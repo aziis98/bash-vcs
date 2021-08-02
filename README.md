@@ -30,7 +30,17 @@ $ wc -l *.sh
 	
 	Restore a previous snapshot given its UUID.
 
+## Notes / Ideas
 
+- `vcs`: `vcs init`, `vcs snapshot`, ...
+
+### Names
+
+- `myver`: "my vcs"
+
+- `aver`: "aziis98 vcs"
+
+- ...
 
 
 
