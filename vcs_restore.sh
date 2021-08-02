@@ -34,11 +34,10 @@ if [[ ! -e ".vcs/snapshots/$SNAPSHOT_UUID" ]]; then
 fi
 
 SNAPSHOT_FILE=".vcs/snapshots/$SNAPSHOT_UUID"
-echo -e "Current Head UUID: $SNAPSHOT_UUID"
 
 echo -e "This will clear the current working tree and restore the previous snapshot"
 read -p "Are you sure to continue? [y/N] " -n 1 -r
-echo
+echo -e "\n"
 if [[ $REPLY =~ ^[Yy]$ ]]; then
 	# Destructive operation!
 	find . -not -path . -not -path './.vcs' -not -path './.vcs/*' -delete

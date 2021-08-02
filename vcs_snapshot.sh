@@ -27,8 +27,8 @@ else
 	PREVIOUS_FILE=".vcs/snapshots/$PREVIOUS_UUID"
 	echo -e "Current Head UUID: $PREVIOUS_UUID"
 
-	echo -e "Saving additions:"
 	comm -13 "$PREVIOUS_FILE" "$SNAPSHOT_FILE" | sed -E 's/(.+?)\t(.+?)/cp -p \"\1\" \".vcs\/files\/\2\"/;' | bash
+	echo -e "Additions saved"
 fi
 
 echo -e "$SNAPSHOT_UUID" > .vcs/HEAD
