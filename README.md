@@ -1,5 +1,5 @@
 
-# A Personal Bash VCS
+# My Personal Bash VCS
 
 A very small shell utility to version files, this is based mostly on `uuidgen` and `sha256sum` and some other common unix cli utilities.
 
