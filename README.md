@@ -1,7 +1,9 @@
 
 # Shell VCS
 
-A very small shell utility to version files. This is an extremely semplified version of git and is based mostly on `uuidgen` and `sha256sum` and some other common unix cli utilities.
+> :warning: This is just a side-side-project so it's probably a good idea not to use this for anithing serious :warning: 
+
+A very small shell utility to version files. This is an extremely semplified version of git and is based mostly on `uuidgen` [:mag:](blob/main/vcs_snapshot.sh#L8) and `sha256sum` [:mag:](blob/main/vcs_snapshot.sh#L13) and some other common unix cli utilities.
 
 ```
 $ wc -l *.sh
