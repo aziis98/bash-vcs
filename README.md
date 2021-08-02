@@ -1,7 +1,7 @@
 
 # Shell VCS
 
-> :warning: This is just a side-side-project so it's probably a good idea not to use this for anithing serious :warning: 
+> :warning: This is just a side-side-project so it's probably a good idea not to use this for anything serious :warning: 
 
 A very small shell utility to version files. This is an extremely semplified version of git, the main utilities this is based on are `uuidgen` [:mag:](vcs_snapshot.sh#L8), `sha256sum` [:mag:](vcs_snapshot.sh#L13) and some other common unix cli utilities.
 
