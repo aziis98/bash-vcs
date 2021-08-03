@@ -8,27 +8,33 @@ A very small shell utility to version files. This is an extremely semplified ver
 ```
 $ wc -l *.sh
   16 vcs_init.sh
-  54 vcs_restore.sh
-  14 vcs_show.sh
-  35 vcs_snapshot.sh
- 119 total
+  65 vcs_restore.sh
+  69 vcs.sh
+  41 vcs_snapshot.sh
+  30 vcs_status.sh
+   9 vcs_updatecurrent.sh
+ 230 total
 ```
 
 ## Usage
 
-- [`./vcs_init.sh`](./vcs_init.sh)
-  
-    Initialize a repository in this folder
+- [`./vcs.sh [-h|--help] <command> ...`](./vcs.sh)
 
-- [`./vcs_show.sh`](./vcs_show.sh)
-  
-    List snapshots with relative UUIDs and creation dates in cronological order.
+    Main command that shows help messages and dispatches sub-commands.
 
-- [`./vcs_snapshot.sh`](./vcs_snapshot.sh)
+- [`./vcs.sh init`](./vcs_init.sh)
   
-    Create a snapshot of current working tree
+    Initialize a repository in this folder.
 
-- [`./vcs_restore.sh <uuid>`](./vcs_restore.sh)
+- [`./vcs.sh status`](./vcs_status.sh)
+  
+    List snapshots with relative UUIDs and creation dates in cronological order. Also shows current status of the working tree with respect to the HEAD snapshot.
+
+- [`./vcs.sh snapshot`](./vcs_snapshot.sh)
+  
+    If there are some changes with respect to HEAD takes a snapshot of current working tree.
+
+- [`./vcs.sh restore [-f] <uuid>`](./vcs_restore.sh)
   
     Restore a previous snapshot given its UUID. This will prompt for confirmation as this first clears the current working tree.
 
@@ -56,6 +62,7 @@ $ wc -l *.sh
 │   │   ├── 7be29454-0716-44a8-ab82-4ef85fb71e67
 │   │   ├── d10d0ced-479b-4fb6-89cb-99f07def893f
 │   │   └── debeb2e5-a94e-4088-b4f6-5ba9bcfd687e
+│   ├── CURRENT
 │   └── HEAD
 ├── a.txt
 ├── b.txt
@@ -64,17 +71,13 @@ $ wc -l *.sh
 
 ## ToDo / Ideas
 
-- `vcs` 
-
-    Add a main command with sub-commands: `vcs init`, `vcs snapshot`, ...
-
 - `vcs init` should create a `.vcs/config` file
 
     - Give an option to gzip blobs inside `.vcs/files`, this should be disabled by default to keep things simpler and always accessible. Something like `vcs init --gzip`
 
 - `vcs snapshot -m <message>`
 
-    Let the user add a message and some notes when creating a snapshot. Or this can simply be solved with a `NOTES` files in the working tree and some magic inside `vcs show` (or with something like `vcs init --message-command 'cat ./NOTES'`).
+    Let the user add a message and some notes when creating a snapshot. Or this can simply be solved with a `NOTES` files in the working tree and some magic inside `vcs status` (or with something like `vcs init --message-command 'cat ./NOTES'`).
 
 ### Names
 
