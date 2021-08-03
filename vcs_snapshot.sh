@@ -11,14 +11,13 @@ DIRNAME="$(dirname "$0")"
 $DIRNAME/vcs_updatecurrent.sh
 
 # There is no need to create a snapshot if it matches HEAD.
-if cmp -s ".vcs/CURRENT" ".vcs/snapshots/$(cat ".vcs/HEAD")"; then
+if [[ -e ".vcs/HEAD" ]] && cmp -s ".vcs/CURRENT" ".vcs/snapshots/$(cat ".vcs/HEAD")"; then
 	echo -e "Working tree already matches HEAD, no need to take a new snapshot."
 	exit 0
 fi
 
 SNAPSHOT_UUID="$(uuidgen)"
 SNAPSHOT_FILE=".vcs/snapshots/$SNAPSHOT_UUID"
-echo -e "New Snapshot UUID: $SNAPSHOT_UUID"
 
 cp ".vcs/CURRENT" "$SNAPSHOT_FILE"
 
@@ -38,4 +37,4 @@ else
 fi
 
 echo -e "$SNAPSHOT_UUID" > .vcs/HEAD
-echo -e "Updated HEAD reference"
+echo -e "Updated HEAD reference to $SNAPSHOT_UUID"
