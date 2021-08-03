@@ -1,24 +1,18 @@
 #!/bin/bash
 
-# Help message
-if [[ "$1" = "--help" || "$1" = "-h" ]]; then
-	cat <<EOF
-Usage: $0 SNAPSHOT_UUID
-
-Options:
-  -h, --help	Prints this message
-EOF
-	exit
-fi
-
 if [[ ! -d ".vcs" ]]; then
 	echo -e "No snapshot repository in this folder"
 	exit 1
 fi
 
-SNAPSHOT_UUID="$1"
+FORCE_RESTORE=0
+if [[ "$1" = "-f" ]]; then
+	shift
+	FORCE_RESTORE=1
+fi
 
-if [[ -z "$SNAPSHOT_UUID" ]]; then
+RESTORE_UUID="$1"
+if [[ -z "$RESTORE_UUID" ]]; then
 	cat <<EOF 
 Missing UUID of snapshot to restore
 
@@ -28,27 +22,44 @@ EOF
 	exit 1
 fi
 
-if [[ ! -e ".vcs/snapshots/$SNAPSHOT_UUID" ]]; then
-	echo -e "Snapshot \"$SNAPSHOT_UUID\" doesn't exists"
+if [[ "$RESTORE_UUID" = "$(cat ".vcs/HEAD")" ]]; then
+	echo -e "The given UUID is already the HEAD, no need to restore it."
+	exit 0
+fi
+
+DIRNAME="$(dirname "$0")"
+
+# Update .vcs/CURRENT
+$DIRNAME/vcs_updatecurrent.sh
+
+if [[ "$FORCE_RESTORE" = "0" ]]; then
+	# Check CURRENT working tree matches the HEAD snapshot.
+	if ! cmp -s ".vcs/CURRENT" ".vcs/snapshots/$(cat ".vcs/HEAD")"; then
+		echo -e "Something has changed, you may want to take a snapshot first. Otherwise pass -f to force the restore."
+		exit 0
+	fi
+fi
+
+if [[ ! -e ".vcs/snapshots/$RESTORE_UUID" ]]; then
+	echo -e "Snapshot \"$RESTORE_UUID\" doesn't exists"
 	exit 1
 fi
 
-SNAPSHOT_FILE=".vcs/snapshots/$SNAPSHOT_UUID"
+SNAPSHOT_FILE=".vcs/snapshots/$RESTORE_UUID"
 
 echo -e "This will clear the current working tree and restore the previous snapshot"
 read -p "Are you sure to continue? [y/N] " -n 1 -r
-echo -e "\n"
 if [[ $REPLY =~ ^[Yy]$ ]]; then
 	# Destructive operation!
 	find . -not -path . -not -path './.vcs' -not -path './.vcs/*' -delete
-	echo -e "Cleared current working directory"
 
 	# Restore the given reference
 	tail -n +2 "$SNAPSHOT_FILE" | sed -E 's/(.+?)\t(.+?)/mkdir -p \"$(dirname \"\1\")\" \&\& cp -p \".vcs\/files\/\2\" \"\1\"/;' | bash
 	echo -e "Snapshot restored"
 
-	echo -e "$SNAPSHOT_UUID" > .vcs/HEAD
-	echo -e "Updated current HEAD reference"
+	echo -e "$RESTORE_UUID" > .vcs/HEAD
+	echo -e "Updated HEAD reference"
 else
-	echo -e "Operation aborted, kept current working tree"
+	echo -e "\n"
+	echo -e "Operation aborted, kept working tree unchanged"
 fi
