@@ -25,14 +25,20 @@ cp ".vcs/CURRENT" "$SNAPSHOT_FILE"
 #  otherwise compute file additions and save those inside .vcs/files
 #  and also update the HEAD reference.
 if [[ ! -e ".vcs/HEAD" ]]; then
-	tail -n +2 ".vcs/snapshots/$SNAPSHOT_UUID" | sed -E 's/(.+?)\t(.+?)/cp -p \"\1\" \".vcs\/files\/\2\"/;' | bash
+	while IFS=$'\t' read -r path hashcode ; do
+		cp -p "$path" ".vcs/files/$hashcode"
+	done < <(tail -n +2 ".vcs/snapshots/$SNAPSHOT_UUID")
+	
 	echo -e "Initial Snapshot Saved"
 else
 	PREVIOUS_UUID="$(cat ".vcs/HEAD")"
 	PREVIOUS_FILE=".vcs/snapshots/$PREVIOUS_UUID"
 	echo -e "Previous Snapshot UUID: $PREVIOUS_UUID"
 
-	comm -13 "$PREVIOUS_FILE" "$SNAPSHOT_FILE" | sed -E 's/(.+?)\t(.+?)/cp -p \"\1\" \".vcs\/files\/\2\"/;' | bash
+	while IFS=$'\t' read -r path hashcode ; do
+		cp -p "$path" ".vcs/files/$hashcode"
+	done < <(comm -13 "$PREVIOUS_FILE" "$SNAPSHOT_FILE")
+
 	echo -e "Additions saved"
 fi
 

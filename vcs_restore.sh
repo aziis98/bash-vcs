@@ -54,7 +54,11 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 	find . -not -path . -not -path './.vcs' -not -path './.vcs/*' -delete
 
 	# Restore the given reference
-	tail -n +2 "$SNAPSHOT_FILE" | sed -E 's/(.+?)\t(.+?)/mkdir -p \"$(dirname \"\1\")\" \&\& cp -p \".vcs\/files\/\2\" \"\1\"/;' | bash
+	while IFS=$'\t' read -r path hashcode ; do
+		mkdir -p "$(dirname "$path")"
+		cp -p ".vcs/files/$hashcode" "$path"
+	done < <(tail -n +2 "$SNAPSHOT_FILE")
+
 	echo -e "Snapshot restored"
 
 	echo -e "$RESTORE_UUID" > .vcs/HEAD
