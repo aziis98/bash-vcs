@@ -79,6 +79,8 @@ $ wc -l *.sh
 
     Let the user add a message and some notes when creating a snapshot. Or this can simply be solved with a `NOTES` files in the working tree and some magic inside `vcs status` (or with something like `vcs init --message-command 'cat ./NOTES'`).
 
+- Config option to exlude the versioning of sub-repositories `.vcs/` directories
+
 ### Names
 
 - `myver`: "my version control system"
